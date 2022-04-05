@@ -17,11 +17,28 @@ export default function App() {
       };
     });
   };
+
+  const [submitted, setSubmitted] = useState(false);
+  const [valid, setValid] = useState(false);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSubmitted(true);
+    // to check if all inputs have values
+    const test = Object.keys(values).every((key) => {
+      return values[key] !== "";
+    });
+    // if test turns true then  the form is valid
+    test && setValid(true);
+  };
   return (
     <div className="form-container">
-      <form className="register-form">
+      <form className="register-form" onSubmit={(e) => handleSubmit(e)}>
         {/* Uncomment the next line to show the success message */}
-        {/* <div className="success-message">Success! Thank you for registering</div> */}
+        {submitted && valid && (
+          <div className="success-message">
+            Success! Thank you for registering
+          </div>
+        )}
         <input
           id="first-name"
           className="form-field"
@@ -32,7 +49,9 @@ export default function App() {
           onChange={(e) => handleChange(e)}
         />
         {/* Uncomment the next line to show the error message */}
-        {/* <span id="first-name-error">Please enter a first name</span> */}
+        {submitted && !values.firstName && (
+          <span id="first-name-error">Please enter a first name</span>
+        )}
         <input
           id="last-name"
           className="form-field"
@@ -43,7 +62,9 @@ export default function App() {
           onChange={(e) => handleChange(e)}
         />
         {/* Uncomment the next line to show the error message */}
-        {/* <span id="last-name-error">Please enter a last name</span> */}
+        {submitted && !values.lastName && (
+          <span id="last-name-error">Please enter a last name</span>
+        )}
         <input
           id="email"
           className="form-field"
@@ -54,7 +75,9 @@ export default function App() {
           onChange={(e) => handleChange(e)}
         />
         {/* Uncomment the next line to show the error message */}
-        {/* <span id="email-error">Please enter an email address</span> */}
+        {submitted && !values.email && (
+          <span id="email-error">Please enter an email address</span>
+        )}
         <button className="form-field" type="submit">
           Register
         </button>
